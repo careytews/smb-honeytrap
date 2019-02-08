@@ -1,0 +1,25 @@
+#!/bin/bash
+
+exec > /LOG 2>&1 </dev/null
+
+echo Starting cyberprobe...
+
+cyberprobe /etc/cyberprobe.cfg > /cyberprobe.log 2>&1 </dev/null &
+
+echo Starting nmbd...
+
+nmbd &
+
+sleep 30
+
+echo Starting smbd...
+
+smbd -d1 -S -F
+
+# Worth trying a second restart
+sleep 5
+
+echo 'Starting smbd (again)...'
+
+smbd -d1 -S -F
+
